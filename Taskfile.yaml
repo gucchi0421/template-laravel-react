@@ -85,12 +85,12 @@ tasks:
   make:r:
     desc: Create a Laravel request
     cmds:
-      - "{{.SAIL}} artisan make:request {{.CLI_ARGS}}"
+      - "{{.SAIL}} artisan make:request {{.CLI_ARGS}}Request"
 
   make:mid:
     desc: Create a Laravel middleware
     cmds:
-      - "{{.SAIL}} artisan make:middleware {{.CLI_ARGS}}"
+      - "{{.SAIL}} artisan make:middleware {{.CLI_ARGS}}Middleware"
 
   make:res:
     desc: Create a Laravel resource

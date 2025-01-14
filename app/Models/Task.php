@@ -12,13 +12,36 @@ class Task extends Model
 {
     use HasFactory;
 
-    public function get_task(): Collection
+    public function getTask(): Collection
     {
-        return Task::all();
+        return $this->all();
     }
 
-    public function get_task_by_id(string $id): ?Task
+    public function createTask(array $data): ?Task
     {
-        return Task::find($id);
+        return $this->create($data);
+    }
+
+    public function getTaskById(string $id): ?Task
+    {
+        return $this->find($id);
+    }
+
+    public function updateTask(string $id, array $data): bool
+    {
+        $task = $this->find($id);
+        if (!$task) {
+            return false;
+        }
+        return $task->update($data);
+    }
+
+    public function deleteTask(string $id): bool
+    {
+        $task = $this->find($id);
+        if (!$task) {
+            return false;
+        }
+        return $task->delete();
     }
 }

@@ -22,8 +22,8 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'       => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
+            'title'       => \fake()->title(),
+            'description' => \fake()->text(100),
         ];
     }
 }

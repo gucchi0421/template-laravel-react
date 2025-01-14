@@ -4,58 +4,52 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     protected Task $task;
 
-    public function __construct()
+    public function __construct(Task $task)
     {
-        $this->task = new Task();
+        $this->task = $task;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): JsonResponse
     {
-        $tasks = $this->task->get_task();
-        return response()->json($tasks);
+        $tasks = $this->task->getTask();
+        return \response()->json($tasks, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(TaskRequest $request): JsonResponse
     {
-        //
+        $reqTask = $request->validated();
+        $task = $this->task->createTask($reqTask);
+        return \response()->json($task, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Request $request, string $id): JsonResponse
+    public function show(string $id): JsonResponse
     {
-        $task = $this->task->get_task_by_id($id);
-        return response()->json($task);
+        $task = $this->task->getTaskById($id);
+        return \response()->json($task, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Task $task)
+    public function update(string $id, TaskRequest $request): JsonResponse
     {
-        //
+        $reqTask = $request->validated();
+        if (!$this->task->updateTask($id, $reqTask)) {
+            return \response()->json(['message' => 'Task not found'], 404);
+        }
+        return \response()->json($reqTask, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Task $task)
+    public function destroy(string $id): JsonResponse
     {
-        //
+        if (!$this->task->deleteTask($id)) {
+            return \response()->json(['message' => 'Task not found'], 404);
+        }
+        return \response()->json(['message' => 'Task deleted successfully'], 200);
     }
 }
