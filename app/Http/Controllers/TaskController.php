@@ -10,11 +10,9 @@ use Illuminate\Http\JsonResponse;
 
 class TaskController extends Controller
 {
-    protected Task $task;
-
-    public function __construct(Task $task)
+    public function __construct(protected Task $task)
     {
-        $this->task = $task;
+
     }
 
     public function index(): JsonResponse
