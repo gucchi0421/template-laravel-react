@@ -2,9 +2,10 @@ import Container from '../components/layouts/Container';
 import { createRoute } from '@tanstack/react-router';
 import { rootRoute } from './__root';
 import { useEffect, useState } from 'react';
-import type { User } from '../types/user';
-import client from '../libs/axios/client';
 import Head from '../components/head/Head';
+import type { components } from '../types/schema';
+import client from '../libs/api/client';
+import { userListRequest, type UserListResource } from '../libs/api/user';
 
 export const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -13,14 +14,10 @@ export const indexRoute = createRoute({
 });
 
 function Index() {
-  const [users, setUsers] = useState<User[] | null>(null);
+  const [users, setUsers] = useState<UserListResource | undefined>(undefined);
 
   useEffect(() => {
-    async function getUsers() {
-      const resp = await client.get<User[]>('/user');
-      setUsers(resp.data);
-    }
-    getUsers();
+    userListRequest().then(setUsers).catch(console.error);
   }, []);
 
   return (
@@ -34,7 +31,7 @@ function Index() {
           <ul>
             {users.map((user) => (
               <li key={user.id}>
-                {user.name} ({user.email})
+                {user.name} ({user.email}) - {user.created_at}
               </li>
             ))}
           </ul>

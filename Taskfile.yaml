@@ -1,18 +1,25 @@
 version: 3
 
 vars:
-  SAIL: php
+  ARTISAN: php artisan
 
 tasks:
+  i:
+    cmds:
+      - |
+        npx openapi-typescript http://localhost:8000/docs/api.json \
+        --output resources/views/types/schema.d.ts \
+        --infer-types --export-type
+
   lint:
     desc: Run PHPStan analysis
     cmds:
-      - "{{.SAIL}} phpstan analyse"
+      - "{{.ARTISAN}} phpstan analyse"
 
   format:
     desc: Run PHP-CS-Fixer
     cmds:
-      - "{{.SAIL}} php-cs-fixer fix --dry-run --diff"
+      - "{{.ARTISAN}} php-cs-fixer fix --dry-run --diff"
 
   setup:
     desc: Setup the ide-helper
@@ -22,96 +29,81 @@ tasks:
         php artisan ide-helper:generate
         php artisan ide-helper:models
 
-  run:
-    desc: Run the local development server
-    cmds:
-      - "{{ .SAIL }} up"
-
   dev:
     cmds:
       - composer dev
 
-  stop:
-    desc: Stop the local development server
-    cmds:
-      - "{{ .SAIL }} stop"
-
   route:
     desc: List all Laravel routes
     cmds:
-      - "{{.SAIL}} artisan route:list"
+      - "{{.ARTISAN}} route:list"
 
   run:migrate:
     desc: Run the local database migrate
     cmds:
-      - "{{ .SAIL }} artisan migrate"
+      - "{{ .ARTISAN }} migrate"
 
   run:seed:
     desc: Run the local database seed
     cmds:
       - |
         {{- if .CLI_ARGS }}
-        {{ .SAIL }} artisan db:seed --class={{ .CLI_ARGS }}
+        {{ .ARTISAN }} db:seed --class={{ .CLI_ARGS }}
         {{- else }}
-        {{ .SAIL }} artisan db:seed
+        {{ .ARTISAN }} db:seed
         {{- end }}
 
   make:c:
     desc: Create a Laravel controller
     cmds:
-      - "{{.SAIL}} artisan make:controller {{.CLI_ARGS}}Controller --model={{.CLI_ARGS}} --api"
+      - "{{.ARTISAN}} make:controller {{.CLI_ARGS}}Controller --model={{.CLI_ARGS}} --api"
 
-  make:mi:
+  make:migrate:
     desc: Create a Laravel migration
     cmds:
-      - "{{.SAIL}} artisan make:migration {{.CLI_ARGS}}"
+      - "{{.ARTISAN}} make:migration {{.CLI_ARGS}}"
 
   make:fs:
     desc: Create a Laravel seeder and factory
     cmds:
-      - "{{.SAIL}} artisan make:factory {{.CLI_ARGS}}Factory --model={{.CLI_ARGS}}"
-      - "{{.SAIL}} artisan make:seeder {{.CLI_ARGS}}Seeder"
+      - "{{.ARTISAN}} make:factory {{.CLI_ARGS}}Factory --model={{.CLI_ARGS}}"
+      - "{{.ARTISAN}} make:seeder {{.CLI_ARGS}}Seeder"
 
   make:f:
     desc: Create a Laravel factory
     cmds:
-      - "{{.SAIL}} artisan make:factory {{.CLI_ARGS}}Factory --model={{.CLI_ARGS}}"
+      - "{{.ARTISAN}} make:factory {{.CLI_ARGS}}Factory --model={{.CLI_ARGS}}"
 
   make:s:
     desc: Create a Laravel seeder
     cmds:
-      - "{{.SAIL}} artisan make:seeder {{.CLI_ARGS}}Seeder"
+      - "{{.ARTISAN}} make:seeder {{.CLI_ARGS}}Seeder"
 
-  make:r:
+  make:req:
     desc: Create a Laravel request
     cmds:
-      - "{{.SAIL}} artisan make:request {{.CLI_ARGS}}Request"
+      - "{{.ARTISAN}} make:request {{.CLI_ARGS}}Request"
 
-  make:mid:
+  make:m:
     desc: Create a Laravel middleware
     cmds:
-      - "{{.SAIL}} artisan make:middleware {{.CLI_ARGS}}Middleware"
+      - "{{.ARTISAN}} make:middleware {{.CLI_ARGS}}Middleware"
 
   make:res:
     desc: Create a Laravel resource
     cmds:
-      - "{{.SAIL}} artisan make:resource {{.CLI_ARGS}}"
-
-  make:cmd:
-    desc: Create a Laravel custom command
-    cmds:
-      - "{{.SAIL}} artisan make:command {{.CLI_ARGS}}"
+      - "{{.ARTISAN}} make:resource {{.CLI_ARGS}}Resource"
 
   make:test:
     desc: Create a Laravel test
     cmds:
-      - "{{.SAIL}} artisan make:test {{.CLI_ARGS}}"
+      - "{{.ARTISAN}} make:test {{.CLI_ARGS}}Test --unit"
 
-  clear:
+  c:
     desc: Clear the Laravel cache
     cmds:
-      - "{{.SAIL}} artisan cache:clear"
-      - "{{.SAIL}} artisan config:clear"
-      - "{{.SAIL}} artisan route:clear"
-      - "{{.SAIL}} artisan view:clear"
-      - "{{.SAIL}} artisan event:clear"
+      - "{{.ARTISAN}} cache:clear"
+      - "{{.ARTISAN}} config:clear"
+      - "{{.ARTISAN}} route:clear"
+      - "{{.ARTISAN}} view:clear"
+      - "{{.ARTISAN}} event:clear"

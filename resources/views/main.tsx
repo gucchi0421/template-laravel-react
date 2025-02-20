@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { indexRoute } from './routes';
 import { rootRoute } from './routes/__root';
 
-import './styles/main.css';
+import './main.css';
 
 export const routeTree = rootRoute.addChildren([
   indexRoute,

@@ -1,7 +1,6 @@
 import { useAtomValue, useSetAtom } from 'jotai/react';
 import { atomWithStorage } from 'jotai/utils';
 import Cookies from 'js-cookie';
-import type { User } from '../types/user';
 
 export interface UserInfo {
   id: number;
@@ -20,13 +19,8 @@ export function useIsLoggedIn() {
 export function useLogin() {
   const setUser = useSetAtom(userAtom);
 
-  return (user: User, token: string) => {
-    const userInfo: UserInfo = {
-      id: user.id,
-      username: user.name,
-    };
-
-    setUser(userInfo);
+  return (user: UserInfo, token: string) => {
+    setUser(user);
     Cookies.set('token', token, {
       expires: 7,
       // secure: true
