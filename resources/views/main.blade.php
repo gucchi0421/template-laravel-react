@@ -7,7 +7,7 @@
         <title>Foo Bar</title>
 
         @viteReactRefresh
-        @vite(['resources/css/app.css', 'resources/ts/main.tsx'])
+        @vite(['resources/views/main.tsx'])
     </head>
 
     <body>

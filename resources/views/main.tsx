@@ -3,10 +3,14 @@ import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { indexRoute } from './routes';
 import { rootRoute } from './routes/__root';
-import { TaskRoute } from './routes/task';
-import { TaskIDRoute } from './routes/task/$taskId';
 
-export const routeTree = rootRoute.addChildren([indexRoute, TaskRoute, TaskIDRoute]);
+import './styles/main.css';
+
+export const routeTree = rootRoute.addChildren([
+  indexRoute,
+  //
+  //
+]);
 
 const router = createRouter({ routeTree });
 

@@ -12,11 +12,9 @@ export default function Header() {
         <div>
           <ul className="flex gap-4">
             <Link to="/">Home</Link>
-            <Link to="/task">Task</Link>
           </ul>
         </div>
       </div>
     </header>
   );
 }
-
